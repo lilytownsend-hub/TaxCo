@@ -3,14 +3,568 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LT Tax Co.</title>
+  <meta name="description" content="LT Tax Co. provides straightforward, organized individual tax preparation with secure client portal access and year-round assistance.">
+  <title>LT Tax Co. | Individual Tax Preparation</title>
+
+  <style>
+    :root {
+      --burgundy: #6f001d;
+      --burgundy-dark: #4f0015;
+      --cream: #fbf8f3;
+      --paper: #ffffff;
+      --charcoal: #282426;
+      --muted: #6f686b;
+      --line: #ded7d9;
+      --soft-gray: #f1edef;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(calc(100% - 36px), var(--max-width));
+      margin-inline: auto;
+    }
+
+    header {
+      background: rgba(251, 248, 243, 0.97);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .nav {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--burgundy-dark);
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--charcoal);
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus {
+      color: var(--burgundy);
+    }
+
+    .hero {
+      padding: 72px 0 68px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      align-items: center;
+      gap: 56px;
+    }
+
+    .eyebrow {
+      color: var(--burgundy);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 700;
+      font-size: 0.78rem;
+      margin-bottom: 12px;
+    }
+
+    h1, h2, h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.12;
+      margin-top: 0;
+    }
+
+    h1 {
+      color: var(--burgundy-dark);
+      font-size: clamp(2.65rem, 7vw, 5.4rem);
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      color: var(--burgundy-dark);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      font-size: 1.12rem;
+      max-width: 720px;
+      margin: 0 0 26px;
+      color: #413b3e;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 20px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid var(--burgundy);
+      transition: 0.15s ease;
+    }
+
+    .button-primary {
+      background: var(--burgundy);
+      color: white;
+    }
+
+    .button-primary:hover,
+    .button-primary:focus {
+      background: var(--burgundy-dark);
+      border-color: var(--burgundy-dark);
+    }
+
+    .button-secondary {
+      background: transparent;
+      color: var(--burgundy);
+    }
+
+    .button-secondary:hover,
+    .button-secondary:focus {
+      background: #f2e9ec;
+    }
+
+    .hero-logo {
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-logo img {
+      width: min(100%, 350px);
+      filter: drop-shadow(0 12px 24px rgba(56, 31, 39, 0.10));
+    }
+
+    .assist {
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 34px 0;
+    }
+
+    .assist-card {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .assist h2 {
+      font-size: 1.7rem;
+      margin-bottom: 0;
+    }
+
+    .security {
+      border-left: 4px solid var(--burgundy);
+      padding-left: 16px;
+      font-weight: 700;
+      margin-top: 14px;
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .life-list {
+      columns: 2;
+      column-gap: 44px;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 30px;
+    }
+
+    .life-list li {
+      break-inside: avoid;
+      position: relative;
+      padding: 8px 0 8px 22px;
+    }
+
+    .life-list li::before {
+      content: "•";
+      color: var(--burgundy);
+      font-size: 1.25rem;
+      position: absolute;
+      left: 0;
+      top: 4px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+
+    .step {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 24px 20px;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--burgundy);
+      color: white;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .cta {
+      background: var(--burgundy-dark);
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      max-width: 680px;
+      margin: 0 auto 24px;
+      color: #f4ecef;
+    }
+
+    .cta .button-primary {
+      background: white;
+      color: var(--burgundy-dark);
+      border-color: white;
+    }
+
+    .cta .button-primary:hover,
+    .cta .button-primary:focus {
+      background: var(--cream);
+    }
+
+    footer {
+      background: #211d1f;
+      color: #e8e2e4;
+      padding: 34px 0;
+      font-size: 0.92rem;
+    }
+
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-grid a {
+      color: white;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .assist-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-logo {
+        order: -1;
+      }
+
+      .hero-logo img {
+        width: 230px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 660px) {
+      .nav {
+        padding: 10px 0;
+        align-items: flex-start;
+      }
+
+      .brand span {
+        display: none;
+      }
+
+      .nav-links {
+        gap: 12px;
+        font-size: 0.88rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .life-list {
+        columns: 1;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 54px 0;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <h1>LT Tax Co.</h1>
-  <p>Individual tax preparation made straightforward, organized, and easy to follow.</p>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="LT Tax Co. home">
+        <img src="logo.png" alt="LT Tax Co. logo">
+        <span>LT Tax Co.</span>
+      </a>
 
-  <h2>Website Coming Soon</h2>
-  <p>We're currently building the new LT Tax Co. website.</p>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#services">Services</a>
+        <a href="#process">How It Works</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Individual Tax Preparation</div>
+          <h1>LT Tax Co.</h1>
+          <p>
+            LT Tax Co. provides individual tax preparation with a focus on keeping the process
+            straightforward, organized, and easy to follow.
+          </p>
+          <p>
+            Whether you're a new or returning client, you can securely complete your tax information,
+            provide your documents, and stay connected throughout the preparation process.
+          </p>
+
+          <div class="actions">
+            <a class="button button-primary" href="#contact">Get Started</a>
+            <a class="button button-secondary" href="#contact">Client Portal</a>
+          </div>
+        </div>
+
+        <div class="hero-logo">
+          <img src="logo.png" alt="LT Tax Co. circular logo">
+        </div>
+      </div>
+    </section>
+
+    <div class="assist" id="contact">
+      <div class="container assist-card">
+        <div>
+          <div class="eyebrow">Available Beyond Tax Season</div>
+          <h2>Year-Round Assistance</h2>
+        </div>
+
+        <div>
+          <p>
+            Need help outside of tax season? LT Tax Co. is available year-round. For the fastest response,
+            please email
+            <a href="mailto:lily.townsend@lttaxco.com"><strong>lily.townsend@lttaxco.com</strong></a>
+            with a brief description of how I can help.
+          </p>
+
+          <p class="security">
+            For your security, never send tax documents or sensitive personal information by email.
+            All documents should be securely uploaded through your client portal.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-intro">
+          <div class="eyebrow">Everyday Tax Situations</div>
+          <h2>Life Happens. Taxes Follow.</h2>
+        </div>
+
+        <ul class="life-list">
+          <li>W-2 jobs?</li>
+          <li>A side gig or self-employment income?</li>
+          <li>Kids or other dependents?</li>
+          <li>Childcare expenses?</li>
+          <li>College or student loan expenses?</li>
+          <li>Unemployment income?</li>
+          <li>Retirement or Social Security income?</li>
+          <li>A 401(k) or retirement account you took money from early?</li>
+          <li>Investments you received distributions from or sold?</li>
+          <li>A home you bought or sold?</li>
+          <li>Mortgage interest or property taxes?</li>
+          <li>Donations to charity?</li>
+          <li>Income from more than one state?</li>
+          <li>A recent marriage or divorce?</li>
+          <li>Health insurance through the Marketplace?</li>
+          <li>An HSA you contributed to or used?</li>
+          <li>An IRS or state tax notice you're not sure what to do with?</li>
+        </ul>
+
+        <p>
+          If some of these sound familiar, you're in the right place. LT Tax Co. prepares individual
+          tax returns for a variety of everyday tax situations.
+        </p>
+
+        <p>
+          Have something that isn't listed?
+          <a href="mailto:lily.townsend@lttaxco.com"><strong>Send me an email with a brief description of your tax situation</strong></a>
+          so we can figure out the best next step.
+        </p>
+      </div>
+    </section>
+
+    <section id="process" style="background: var(--soft-gray);">
+      <div class="container">
+        <div class="section-intro">
+          <div class="eyebrow">Simple, Secure Process</div>
+          <h2>How It Works</h2>
+        </div>
+
+        <div class="steps">
+          <article class="step">
+            <div class="step-number">1</div>
+            <h3>Get Started</h3>
+            <p>Create your secure client portal and complete your tax questionnaire.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">2</div>
+            <h3>Gather &amp; Upload</h3>
+            <p>Use your personalized checklist to see what's needed and securely upload your tax documents through your portal.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">3</div>
+            <h3>I Prepare Your Return</h3>
+            <p>I'll review your information and prepare your return. If I have questions or need anything additional, I'll reach out.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">4</div>
+            <h3>Review &amp; Sign</h3>
+            <p>Review your completed return, ask any questions you have, and securely sign the required documents.</p>
+          </article>
+
+          <article class="step">
+            <div class="step-number">5</div>
+            <h3>File &amp; You're Done</h3>
+            <p>Once everything is approved, signed, and paid, your return will be electronically filed. Your final tax documents will remain available through your secure client portal, and you'll receive confirmation once your return has been accepted.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Ready when you are.</h2>
+        <p>
+          Start with a quick estimate or reach out with a brief description of your tax situation.
+        </p>
+        <a class="button button-primary" href="mailto:lily.townsend@lttaxco.com">Contact LT Tax Co.</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <strong>LT Tax Co.</strong><br>
+        Individual Tax Preparation
+      </div>
+
+      <div>
+        <a href="mailto:lily.townsend@lttaxco.com">lily.townsend@lttaxco.com</a><br>
+        608-460-4800
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
