@@ -232,10 +232,15 @@ footer a{color:white}
 
   <div class="result" id="manualResult">
     <h2>Let's Take a Closer Look</h2>
-    <p>Based on the information entered, your situation may require additional review before an accurate preparation fee can be estimated.</p>
-    <p>Rather than give you an inaccurate estimate, LT Tax Co. will review the situation individually.</p>
-    <p>Email <a href="mailto:lily.townsend@lttaxco.com"><strong>lily.townsend@lttaxco.com</strong></a> with a brief description of your tax situation.</p>
-    <div class="warning"><strong>For your security, do not email tax documents, Social Security numbers, account numbers, or other sensitive personal information.</strong> Tax documents should only be uploaded through your secure client portal.</div>
+    <p>Based on the information entered, your situation may require additional review before an accurate preparation fee can be estimated. Rather than give you an inaccurate estimate, LT Tax Co. can review your situation individually.</p>
+    <div id="manualRequestQuestion" style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border)">
+      <h3>Do you want to send your estimate request to LT Tax Co. and have a professional reach out to you?</h3>
+      <div class="controls" style="justify-content:flex-start">
+        <button class="btn primary" type="button" onclick="requestManualReview()">Yes</button>
+        <button class="btn secondary" type="button" onclick="declineManualReview()">No</button>
+      </div>
+      <p id="manualNoMessage" style="display:none;margin-top:20px;font-weight:700">Not a problem! Shopping around is smart! We hope to see you back here again. :)</p>
+    </div>
   </div>
 </div>
 </main>
@@ -328,15 +333,18 @@ function buildEstimatorSummary(total){
 }
 function requestPortal(){ window.location.href='new-client.html'; }
 function declinePortal(){ document.getElementById('portalNoMessage').style.display='block'; }
+function requestManualReview(){ window.location.href='new-client.html?manual=1'; }
+function declineManualReview(){ document.getElementById('manualNoMessage').style.display='block'; }
 function calculate(){
   if(!document.getElementById("confirm").checked){
     document.getElementById("confirmError").style.display="block"; return;
   }
   document.getElementById("confirmError").style.display="none";
 
-  // Situations intentionally routed to individual review.
+  // Situations intentionally routed to individual review. We still run the
+  // calculator so LT Tax Co. receives an internal comparison amount, but that
+  // amount is never presented as the client's estimate.
   const manual = selected("other") || [...document.querySelectorAll(".special")].some(x=>x.checked);
-  if(manual){showManual();return;}
 
   let tier=1, complexity=0;
   const filing=val("filing"), deps=num("deps"), deduction=val("deduction");
@@ -397,7 +405,18 @@ function calculate(){
   if(val("localNeed")==="yes") localFee=num("localCount")*25;
 
   const total=prep+stateFee+localFee;
-  sessionStorage.setItem('ltTaxEstimate', JSON.stringify({total: money(total), summary: buildEstimatorSummary(total), created: new Date().toISOString()}));
+  const estimateData={
+    total: money(total),
+    internalCalculatedEstimate: money(total),
+    summary: buildEstimatorSummary(total),
+    manualReview: manual,
+    clientFacingResult: manual ? 'Manual review required' : money(total),
+    created: new Date().toISOString()
+  };
+  sessionStorage.setItem('ltTaxEstimate', JSON.stringify(estimateData));
+
+  if(manual){showManual();return;}
+
   document.getElementById("prep").textContent=money(prep);
   document.getElementById("stateFee").textContent=money(stateFee);
   document.getElementById("localFee").textContent=money(localFee);
