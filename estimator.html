@@ -220,7 +220,14 @@ footer a{color:white}
     <p>Your fee may increase for additional tax situations, complexity, missing or undisclosed information, documentation, research, or review.</p>
     <p>Returns requiring more than 2 hours of preparation may incur additional preparation fees at <strong>$50 per hour, prorated in 15-minute increments ($12.50 per 15 minutes).</strong></p>
     <p>If information is expected to significantly change your estimate, LT Tax Co. will discuss the price change before additional work is completed.</p>
-    <a class="btn primary" href="new-client.html">New Client? Get Started</a>
+    <div id="portalQuestion" style="margin-top:28px;padding-top:24px;border-top:1px solid var(--border)">
+      <h3>Do you want to request a client portal?</h3>
+      <div class="controls" style="justify-content:flex-start">
+        <button class="btn primary" type="button" onclick="requestPortal()">Yes</button>
+        <button class="btn secondary" type="button" onclick="declinePortal()">No</button>
+      </div>
+      <p id="portalNoMessage" style="display:none;margin-top:20px;font-weight:700">Not a problem! Shopping around is smart! We hope to see you back here again. :)</p>
+    </div>
   </div>
 
   <div class="result" id="manualResult">
@@ -275,7 +282,7 @@ function showSpecialText(){document.getElementById("specialTextWrap").classList.
 function toggleSold(){document.getElementById("soldExtra").classList.toggle("show",document.getElementById("soldhome").checked);}
 function toggleStates(){document.getElementById("stateExtra").classList.toggle("show",document.getElementById("otherStateYes").value==="yes");}
 function toggleLocal(){document.getElementById("localExtra").classList.toggle("show",document.getElementById("localNeed").value==="yes");}
-function startEstimate(){document.getElementById("intro").style.display="none";go(1);}
+function startEstimate(){sessionStorage.removeItem("ltTaxEstimate");document.getElementById("intro").style.display="none";go(1);}
 function go(n){document.querySelectorAll(".stage").forEach(x=>x.classList.remove("active"));document.getElementById("s"+n).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
 function selected(name){return document.querySelector(`[data-inc="${name}"]`)?.checked}
 function val(id){return document.getElementById(id)?.value}
@@ -283,6 +290,44 @@ function num(id){return parseInt(val(id)||0,10)}
 function money(n){return "$"+n.toFixed(2).replace(".00","")}
 function pair(a,b){return [a,b].sort().join("|")}
 
+function labelTextFor(el){
+  const label=el.closest('label') || (el.id ? document.querySelector(`label[for="${el.id}"]`) : null);
+  return label ? label.textContent.replace(/\s+/g,' ').trim() : (el.id || 'Selection');
+}
+function selectedText(id){
+  const el=document.getElementById(id); if(!el) return '';
+  return el.options ? el.options[el.selectedIndex].text : el.value;
+}
+function buildEstimatorSummary(total){
+  const lines=[];
+  lines.push(`Filing status: ${selectedText('filing')}`);
+  lines.push(`Dependents: ${selectedText('deps')}`);
+  lines.push(`Expected deduction: ${selectedText('deduction')}`);
+  const incomes=[...document.querySelectorAll('[data-inc]:checked')];
+  lines.push(`Income selected: ${incomes.length ? incomes.map(labelTextFor).join('; ') : 'None selected'}`);
+  const detailMap={w2:['w2count'],interest:['intcount','intover'],dividend:['divcount','divover'],ssa:['ssacount','railroad'],retirement:['rcount','early'],unemployment:['gcount'],selfemp:['bizcount','neccount'],rental:['rentalcount'],k1:['k1count'],gambling:['wgcount']};
+  incomes.forEach(cb=>(detailMap[cb.dataset.inc]||[]).forEach(id=>{
+    const el=document.getElementById(id); if(el) lines.push(`${labelTextFor(el)}: ${selectedText(id)}`);
+  }));
+  const situations=['childcare','education','studentloan','hsa','marketplace','boughthome','soldhome','estimated'];
+  const chosen=situations.map(id=>document.getElementById(id)).filter(x=>x&&x.checked);
+  lines.push(`Credits / other situations: ${chosen.length ? chosen.map(labelTextFor).join('; ') : 'None selected'}`);
+  if(document.getElementById('soldhome').checked) lines.push(`Expected Form 1099-S: ${selectedText('homesale1099')}`);
+  lines.push(`Home state: ${selectedText('homeState')}`);
+  lines.push(`Employee wages in other states: ${selectedText('otherStateYes')}`);
+  if(val('otherStateYes')==='yes'){
+    const os=[...document.querySelectorAll('.otherState:checked')].map(x=>x.value);
+    lines.push(`Other states selected: ${os.length?os.join(', '):'None selected'}`);
+  }
+  lines.push(`City/local return expected: ${selectedText('localNeed')}`);
+  if(val('localNeed')==='yes') lines.push(`City/local returns: ${selectedText('localCount')}`);
+  lines.push(`All documents/supporting information ready: ${selectedText('docsReady')}`);
+  if(selected('selfemp')) lines.push(`Business records ready: ${selectedText('bizReady')}`);
+  lines.push(`Estimated tax preparation fee: ${money(total)}`);
+  return lines.join('\n');
+}
+function requestPortal(){ window.location.href='new-client.html'; }
+function declinePortal(){ document.getElementById('portalNoMessage').style.display='block'; }
 function calculate(){
   if(!document.getElementById("confirm").checked){
     document.getElementById("confirmError").style.display="block"; return;
@@ -352,6 +397,7 @@ function calculate(){
   if(val("localNeed")==="yes") localFee=num("localCount")*25;
 
   const total=prep+stateFee+localFee;
+  sessionStorage.setItem('ltTaxEstimate', JSON.stringify({total: money(total), summary: buildEstimatorSummary(total), created: new Date().toISOString()}));
   document.getElementById("prep").textContent=money(prep);
   document.getElementById("stateFee").textContent=money(stateFee);
   document.getElementById("localFee").textContent=money(localFee);
