@@ -58,24 +58,13 @@ footer a{color:white}
   .grid,.checks{grid-template-columns:1fr}
   .stage{padding:22px}
 }
-
-/* Resources navigation dropdown */
-.nav-dropdown{position:relative;display:inline-block}
-.nav-dropdown summary{list-style:none;cursor:pointer;font-weight:700}
-.nav-dropdown summary::-webkit-details-marker{display:none}
-.nav-dropdown summary::after{content:" ▾";font-size:.75em}
-.nav-dropdown-menu{display:none;position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:180px;padding:8px 0;background:var(--white,#fffdf9);border:1px solid #e8ded0;box-shadow:0 8px 20px rgba(45,35,30,.12);z-index:30}
-.nav-dropdown[open] .nav-dropdown-menu,.nav-dropdown:hover .nav-dropdown-menu{display:block}
-.nav-dropdown-menu a{display:block;padding:9px 16px;white-space:nowrap;text-decoration:none}
-@media(max-width:600px){.nav-dropdown-menu{left:0;transform:none}}
-
 </style>
 </head>
 <body>
 <header>
   <div class="wrap nav">
     <a class="brand" href="index.html" aria-label="LT Tax Co. home"><img src="logo-horizontal.png" alt="LT Tax Co."></a>
-    <nav><a href="index.html">Back to Home</a><details class="nav-dropdown"><summary>Resources</summary><div class="nav-dropdown-menu"><a href="resources.html">Free Resources</a><a href="paid-resources.html">Paid Resources</a></div></details></nav>
+    <nav><a href="index.html">Back to Home</a></nav>
   </div>
 </header>
 
